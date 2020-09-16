@@ -36,8 +36,11 @@ def clean_directories():
         if file[-10:] == '.REMOVE_ME':
             file_path = './images/' + file
             remove(file_path)
-    rmtree('./config')
 
 
 if __name__ == '__main__':
+    # удаляет папку './config', чтобы избежать исключения 
+    # assert cookie_username == self.username.lower() AssertionError
+    rmtree('./config')
+
     publication_pictures()
