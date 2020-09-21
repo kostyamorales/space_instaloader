@@ -4,7 +4,7 @@ from photo_cropping import resizes_images
 import argparse
 
 
-def downloads_pictures(picture_url, id_picture, pic_expansion):
+def download_picture(picture_url, id_picture, pic_expansion):
     pathlib.Path("images").mkdir(parents=True, exist_ok=True)
     response = requests.get(picture_url, verify=False)
     response.raise_for_status()
@@ -32,7 +32,7 @@ def get_hubble_collection(collection_name):
         id_picture = str(element['id'])
         picture_url = get_hubble_picture_url(id_picture)
         pic_expansion = picture_url.split('.')[-1]
-        downloads_pictures(picture_url, id_picture, pic_expansion)
+        download_picture(picture_url, id_picture, pic_expansion)
 
 
 if __name__ == '__main__':
