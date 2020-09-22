@@ -4,7 +4,7 @@ from PIL import Image
 from os import path
 
 
-def resizes_images(data_files):
+def resize_image(data_files):
     for data_file in data_files:
         file_path, file_name = data_file
         try:
