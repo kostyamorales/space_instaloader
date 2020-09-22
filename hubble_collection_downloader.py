@@ -1,6 +1,6 @@
 import requests
 from pathlib import Path
-from photo_cropping import resize_image
+from photo_cropping import resizes_images
 import argparse
 
 
@@ -42,7 +42,7 @@ def get_hubble_collection(collection_name):
         id_pictures.append(str(element['id']))
     images_url = get_hubble_picture_url(id_pictures)
     data_files = download_picture(images_url)
-    resize_image(data_files)
+    resizes_images(data_files)
 
 
 if __name__ == '__main__':
