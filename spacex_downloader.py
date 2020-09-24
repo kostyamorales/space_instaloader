@@ -1,6 +1,6 @@
 import requests
 from pathlib import Path
-from photo_cropping import resize_image
+from photo_cropping import resizes_images
 
 
 def download_picture(images_url):
@@ -25,8 +25,8 @@ def fetch_spacex_last_launch():
     images_url = []
     for picture_url in answer['links']['flickr_images']:
         images_url.append(picture_url)
-    data_files = download_picture(images_url)
-    resize_image(data_files)
+    path_name_pictures = download_picture(images_url)
+    resizes_images(path_name_pictures)
 
 
 if __name__ == '__main__':
