@@ -6,34 +6,26 @@ from pathlib import Path
 from shutil import rmtree
 
 
-def publication_pictures():
+def publishes_pictures():
     bot = Bot()
     bot.login(username=getenv('INSTA_LOGIN'), password=getenv('INSTA_PASSWORD'))
-    try:
-        with open("upload_images.txt", "r", encoding="utf8") as file:
-            posted_image_list = file.read().splitlines()
-    except Exception:
-        posted_image_list = []
     collection = listdir('images')
     for image in collection:
-        if image in posted_image_list:
-            continue
-        else:
-            bot.upload_photo(Path(f'images/{image}'))
-            posted_image_list.append(image)
-            with open("upload_images.txt", "a", encoding="utf8") as file:
-                file.write(f'{image}\n')
+        bot.upload_photo(Path(f'images/{image}'))
         time.sleep(5)
-    clean_directories()
+    cleans_directories()
 
 
-# instabot после публикации фотографии добавляет файлу суффикс '.REMOVE_ME'
-# Данная функция удаляет файлы, опубликованных фотографий.
-def clean_directories():
-    for file in listdir('images'):
-        root, ext = path.splitext(file)
+def cleans_directories():
+    """ Удаляет опубликованные фотографии.
+
+    instabot после публикации фотографии добавляет файлу суффикс '.REMOVE_ME'
+    Функция удаляет эти файлы.
+    """
+    for file_name in listdir('images'):
+        root, ext = path.splitext(file_name)
         if ext == '.REMOVE_ME':
-            file_path = Path(f'images/{file}')
+            file_path = Path(f'images/{file_name}')
             remove(file_path)
 
 
@@ -44,4 +36,4 @@ if __name__ == '__main__':
     if path.isdir('config'):
         rmtree('config')
 
-    publication_pictures()
+    publishes_pictures()
