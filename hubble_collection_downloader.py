@@ -1,23 +1,7 @@
 import requests
-from pathlib import Path
-from photo_cropping import resizes_images
+from photo_cropping import resize_images
 import argparse
-
-
-def downloads_picture(images_url):
-    Path("images").mkdir(parents=True, exist_ok=True)
-    path_name_pictures = []
-    for image in images_url:
-        id_picture, url = image
-        pic_expansion = url.split('.')[-1]
-        response = requests.get(url, verify=False)
-        response.raise_for_status()
-        file_name = f'image_{id_picture}'
-        file_path = Path(f'images/{file_name}.{pic_expansion}')
-        path_name_pictures.append((file_path, file_name))
-        with open(file_path, 'wb') as file:
-            file.write(response.content)
-    return path_name_pictures
+from utils import download_picture
 
 
 def get_hubble_picture_url(id_pictures):
@@ -28,7 +12,8 @@ def get_hubble_picture_url(id_pictures):
         response.raise_for_status()
         url_image = response.json()['image_files'][-1]['file_url']
         url_image = f'https:{url_image}'
-        images_url.append((id_picture, url_image))
+        root = 'image_'
+        images_url.append((root, id_picture, url_image))
     return images_url
 
 
@@ -41,8 +26,8 @@ def get_hubble_collection(collection_name):
     for element in collection:
         id_pictures.append(str(element['id']))
     images_url = get_hubble_picture_url(id_pictures)
-    path_name_pictures = downloads_picture(images_url)
-    resizes_images(path_name_pictures)
+    path_name_pictures = download_picture(images_url)
+    resize_images(path_name_pictures)
 
 
 if __name__ == '__main__':
