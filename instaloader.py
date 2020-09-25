@@ -6,17 +6,17 @@ from pathlib import Path
 from shutil import rmtree
 
 
-def publishes_pictures():
+def publish_pictures():
     bot = Bot()
     bot.login(username=getenv('INSTA_LOGIN'), password=getenv('INSTA_PASSWORD'))
     collection = listdir('images')
     for image in collection:
         bot.upload_photo(Path(f'images/{image}'))
         time.sleep(5)
-    cleans_directories()
+    clean_directories()
 
 
-def cleans_directories():
+def clean_directories():
     """ Удаляет опубликованные фотографии.
 
     instabot после публикации фотографии добавляет файлу суффикс '.REMOVE_ME'
@@ -36,4 +36,4 @@ if __name__ == '__main__':
     if path.isdir('config'):
         rmtree('config')
 
-    publishes_pictures()
+    publish_pictures()
